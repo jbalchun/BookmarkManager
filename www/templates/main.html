@@ -1,0 +1,14 @@
+<ion-view view-title="Main">
+  <ion-content overflow-scroll="true">
+    <ion-list >
+      <div class="card" ng-repeat="bookmark in bookmarks">
+        <div class="item item-text-wrap" >
+          {{bookmark.title}}
+        </div>
+      </div>
+      <!--<ion-item ng-repeat="bookmark in bookmarks" href="#/app/playlists/{{playlist.id}}">-->
+        <!--{{bookmark.title}}-->
+      <!--</ion-item>-->
+    </ion-list>
+  </ion-content>
+</ion-view>
