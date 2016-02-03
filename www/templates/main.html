@@ -1,7 +1,7 @@
-<ion-view view-title="Main">
+<ion-view view-title="pagelocker">
   <ion-content overflow-scroll="true">
 
-    <div class="col col-50 col-offset-26" ng-click="requestTagAndCats()">
+    <div class="col desktop-width" ng-click="requestTagAndCats()">
       <div class="card padding">
         <h4>New Bookmark</h4>
 
@@ -9,7 +9,7 @@
           <input name="address" type="text" ng-model="viewBookmark.url" placeholder="Address">
         </label>
         <label class="item item-input validated">
-          <input name="title" type="text" ng-model="viewBookmark.title" placeholder="Title (optional)">
+          <input name="descr" type="text" ng-model="viewBookmark.descr" placeholder="Description (optional)">
         </label>
 
         <div>
@@ -28,11 +28,11 @@
 
         <div class="border-top">
           <tags-input class="bootstrap full front border-top"
-                      ng-model="bookmark.category"
+                      ng-model="viewBookmark.category"
                       placeholder="Add Category"
                       max-tags="1"
                       replace-spaces-with-dashes="false"
-                      add-from-autocomplete-only="false">
+                      add-from-autocomplete-only="true">
             <auto-complete source="categories"
                            min-length="2"
                            debounce-delay="0"
@@ -74,8 +74,8 @@
                      ng-readonly="!bookmark.editing">
             </label>
             <label class="item item-input validated">
-              <span class="input-label label-width">Title</span>
-              <input name="title" type="text" ng-model="bookmark.title" placeholder="Title (optional)"
+              <span class="input-label label-width">Description</span>
+              <input name="title" type="text" ng-model="bookmark.descr" placeholder="Description"
                      ng-readonly="!bookmark.editing">
             </label>
 
@@ -109,7 +109,6 @@
                                max-results="10"></auto-complete>
               </tags-input>
             </div>
-
             <button ng-if="bookmark.editing" type="submit" class="button button-block button-balanced"
                     ng-click="editBookmark($index)">
               <strong>Save Changes</strong>

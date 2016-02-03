@@ -2,6 +2,20 @@
 .col-offset-26{
   margin-left:26%;
 }
+
+@media (orientation: landscape){
+  .desktop-width{
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 50%;
+    -moz-box-flex: 0;
+    -moz-flex: 0 0 50%;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+    margin-left:26%
+  }
+
+}
 /*.border-top{*/
   /*border-top:  solid black;*/
 /*}*/

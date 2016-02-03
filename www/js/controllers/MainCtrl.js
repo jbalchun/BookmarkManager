@@ -1,6 +1,6 @@
 var app = angular.module('Bookmarks.MainCtrl', []);
 app.controller('MainCtrl',function($scope,BookmarkFactory,DataService){
-  $scope.viewBookmark = {url: '',name:'',tags:[],category:''};
+  $scope.viewBookmark = {url: '',tags:[],category:'',descr:''};
   $scope.searchText = '';
   $scope.tags = ['Food','Education'];
   $scope.bookmarks = [
@@ -12,7 +12,8 @@ app.controller('MainCtrl',function($scope,BookmarkFactory,DataService){
 
   $scope.requestTagAndCats = function(){
     $scope.categories = DataService.getCategories();
-    console.log('ctrlcats',$scope.categories);
+    $scope.tags = DataService.getTags();
+    console.log('ctrltags',$scope.tags);
   }
 
   $scope.addBookmark = function(){
@@ -21,6 +22,7 @@ app.controller('MainCtrl',function($scope,BookmarkFactory,DataService){
     var newBookmark = BookmarkFactory.build(viewObject);
     $scope.bookmarks.unshift(newBookmark);
     cleanUpForm();
+    saveTags(viewObject.tags);
     /*
      ParseFactory.addBookmark(newBookmark);
      */
@@ -45,6 +47,10 @@ app.controller('MainCtrl',function($scope,BookmarkFactory,DataService){
   }
 
   var cleanUpForm = function(){
-    $scope.viewBookmark = {url: '',name:'',tags:[],folder:''};
+    $scope.viewBookmark = {url: '',descr:'',tags:[],category:''};
+  }
+
+  var saveTags = function(tags){
+    DataService.saveTags(tags);
   }
 });

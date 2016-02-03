@@ -18,11 +18,13 @@ app.factory('DataService', function () {
       console.log('servcats',this.categories);
       return this.categories;
     },
-    setTags:function(){
-
+    saveTags:function(tags){
+      for(var i=0;i<tags.length;i++){
+        this.tags.push(tags[i].text);
+      }
     },
     getTags:function(){
-
+      return this.tags;
     },
     setBookmarks:function(){
 
