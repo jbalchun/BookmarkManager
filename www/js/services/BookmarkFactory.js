@@ -1,18 +1,24 @@
-/**
- * Created by Jbalchun on 2/1/16.
- */
+
 var app = angular.module('MyApp.BookmarkFactory', []);
 app.factory('BookmarkFactory',function(){
 
-  return function bookMark(title,tags,url){
-
-    return{
-      id: '',//add a function to generate an id
-      title:title,
-      tags:tags,
-      url:url
-    }
+  function Bookmark(url,name,tags,category){
+    this.url = url;
+    this.title = title;
+    this.tags = tags;
+    this.category = category;
 
   }
+
+  //Bookmark.prototype.funcName = function()
+
+  Bookmark.build = function(viewObj){
+
+    return new Bookmark(viewObj.url,viewObj.title,viewObj.tags,viewObj.category);
+
+  }
+
+  return Bookmark
+
 
 });

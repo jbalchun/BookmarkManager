@@ -1,6 +1,6 @@
 var app = angular.module('Bookmarks.SideCtrl', [])
 
-app.controller('SideCtrl', function($scope, $ionicModal, $timeout,$ionicPopup) {
+app.controller('SideCtrl', function($scope, $ionicModal, $timeout,$ionicPopup,DataService) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -9,7 +9,9 @@ app.controller('SideCtrl', function($scope, $ionicModal, $timeout,$ionicPopup) {
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
-  $scope.categories = [{title:"Main"}, {title:"Education"}];
+
+
+  $scope.categories = ["Main", "Education"];
 
   $scope.filterMain = function(category){
 
@@ -23,18 +25,12 @@ app.controller('SideCtrl', function($scope, $ionicModal, $timeout,$ionicPopup) {
       inputPlaceholder: 'Category'
     }).then(function(res) {
       console.log('Category is', res);
-      $scope.categories.push({title:res});
+      $scope.categories.push(res);
+      DataService.setCategories($scope.categories);
     });
 
 
   }
-
-
-
-
-
-
-
 
   // Form data for the login modal
   $scope.loginData = {};
@@ -67,7 +63,3 @@ app.controller('SideCtrl', function($scope, $ionicModal, $timeout,$ionicPopup) {
     }, 1000);
   };
 })
-
-
-
-

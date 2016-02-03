@@ -1,6 +1,9 @@
 var cluster = require('cluster');
 
-//clustering to run 4 threads on one heroku dyno
+/*
+* Basic node server w/ some extra code to utilize all 4 cores on the heroku dyno
+*
+* */
 if (cluster.isMaster) {
   // Count the machine's CPUs
   var cpuCount = require('os').cpus().length;
@@ -12,7 +15,6 @@ if (cluster.isMaster) {
 
   var express = require('express'),
     app = express();
-  //gulp.start('templates');
   app.use(express.static('www'));
   app.set('port', process.env.PORT || 5000);
   app.listen(app.get('port'), function () {

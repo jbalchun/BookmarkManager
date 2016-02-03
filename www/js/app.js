@@ -4,7 +4,11 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('Bookmarks', ['ionic', 'Bookmarks.SideCtrl','Bookmarks.MainCtrl'])
+angular.module('Bookmarks', ['ionic', 'Bookmarks.SideCtrl',
+  'Bookmarks.MainCtrl',
+  'MyApp.BookmarkFactory',
+  'MyApp.DataService',
+  'ngTagsInput'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
