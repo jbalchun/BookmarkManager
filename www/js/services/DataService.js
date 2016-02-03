@@ -3,16 +3,14 @@
  */
 var app = angular.module('MyApp.DataService', []);
 
-app.factory('DataService', function () {
-  var categories = [];
-  var tags = [];
-  var bookmarks = [];
+app.factory('DataService', function ($localStorage,$rootScope,ParseFactory) {
   return{
-    categories:[],
-    tags:[],
-    bookmarks:[],
+    categories:['Main'],
+    tags:['Cool'],
+    bookmarks:[{url: 'https://www.vts.com/',tags:['Cool'],category:'',descr:'Demo bookmark'}],
     setCategories:function(categories){
       this.categories = categories;
+      this.saveData();
     },
     getCategories:function(){
       console.log('servcats',this.categories);
@@ -22,15 +20,21 @@ app.factory('DataService', function () {
       for(var i=0;i<tags.length;i++){
         this.tags.push(tags[i].text);
       }
+      this.saveData();
     },
     getTags:function(){
       return this.tags;
     },
-    setBookmarks:function(){
-
+    setBookmarks:function(bookmarks){
+      this.bookmarks = bookmarks;
+      this.saveData();
     },
     getBookmarks:function(){
-
+      return this.bookmarks;
+    },
+    saveData:function(){
+      $rootScope.$storage.mainObject.DataService = this;
+      ParseFactory.deleteThenSave();
     }
 
   }

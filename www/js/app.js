@@ -4,14 +4,25 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('Bookmarks', ['ionic', 'Bookmarks.SideCtrl',
+angular.module('Bookmarks', ['ionic',
+  'Bookmarks.SideCtrl',
   'Bookmarks.MainCtrl',
   'MyApp.BookmarkFactory',
   'MyApp.DataService',
-  'ngTagsInput'])
+  'ngStorage',
+  'ngTagsInput',
+  'MyApp.ParseFactory'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,$rootScope,$localStorage,DataService) {
   $ionicPlatform.ready(function() {
+    $rootScope.$storage = $localStorage;
+    Parse.initialize("SiCbzRW2kNcln8iLcYyPj85mY5qp8Xa1R3nkWOZi", "Bdyh495XAOVYCbZVVDasYmZ3f94U04OrUuS6q7th");
+    $rootScope.$storage = $localStorage.$default({
+      mainObject:{
+        DataService:DataService
+      }
+    });
+
 
   });
 })
