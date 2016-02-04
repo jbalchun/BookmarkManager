@@ -97,9 +97,12 @@ app.factory('ParseFactory', ["$rootScope", function ($rootScope) {
       query.equalTo("username",username);
       query.find({
         success: function(results) {
-          console.log('result',results[0].get('file'));
-          console.log('parse',JSON.parse(results[0].get('file')));
-          DataService.setModel(JSON.parse(results[0].get('file')));
+
+          if(results[0]){
+            console.log('result',results[0].get('file'));
+            console.log('parse',JSON.parse(results[0].get('file')));
+            DataService.setModel(JSON.parse(results[0].get('file')));
+          }
         },
         error: function(error) {
           //alert("Error: " + error.code + " " + error.message);
