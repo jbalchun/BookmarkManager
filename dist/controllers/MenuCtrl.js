@@ -54,17 +54,13 @@ app.controller('MenuCtrl', ["$scope", "$ionicModal", "$timeout", "$ionicPopup", 
   $scope.doLogin = function() {
     console.log('Doing login', $scope.userData);
     ParseFactory.logIn($scope.userData);
-    $scope.closeLogin = function() {
-      $scope.modal.hide();
-    };
+
   };
 
   $scope.doRegister = function() {
     console.log('Doing register', $scope.userData);
     ParseFactory.register($scope.userData);
-    $scope.closeLogin = function() {
-      $scope.modal.hide();
-    };
+
   };
 
 }])

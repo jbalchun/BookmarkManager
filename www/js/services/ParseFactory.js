@@ -12,6 +12,7 @@ app.factory('ParseFactory', function ($rootScope) {
       user.set("email", userData.email);
       user.signUp(null, {
         success: function(user) {
+          $rootScope.$broadcast('logged-in');
           $rootScope.email = userData.email;
           $rootScope.$storage.username = userData.email;
         },
