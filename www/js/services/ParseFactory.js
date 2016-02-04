@@ -103,7 +103,8 @@ app.factory('ParseFactory', function ($rootScope) {
 
           if(results[0]){
             console.log('result',results[0].get('file'));
-            console.log('parse',JSON.parse(results[0].get('file')));
+            console.log('parse, set model',JSON.parse(results[0].get('file')));
+
             DataService.setModel(JSON.parse(results[0].get('file')));
           }
         },

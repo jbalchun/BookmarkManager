@@ -1,5 +1,5 @@
 var app = angular.module('MyApp.DataService', []);
-app.factory('DataService', function ($localStorage,$rootScope,ParseFactory) {
+app.factory('DataService', function ($localStorage,$rootScope,ParseFactory,$timeout) {
 
   /*
   * Injectable factory that will act as the backbone for the apps data*/
@@ -43,6 +43,12 @@ app.factory('DataService', function ($localStorage,$rootScope,ParseFactory) {
       this.categories = model.categories;
       this.tags = model.tags;
       this.bookmarks = model.bookmarks;
+      /*Model would not apply without this... some issue with digest perhaps*/
+      $timeout(function() {
+        this.categories = model.categories;
+        this.tags = model.tags;
+        this.bookmarks = model.bookmarks;
+      },30);
       $rootScope.$broadcast('cloud-load');
     },
 
