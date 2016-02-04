@@ -11,7 +11,7 @@
       </ion-nav-buttons>
       <ion-nav-buttons side="right">
         <button class="button button-icon button-clear ion-person" ng-click="login()">
-        </button >
+        </button>
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
@@ -20,10 +20,13 @@
   <ion-side-menu side="left">
     <ion-header-bar class="bar-stable">
       <h1 class="title">Folders</h1>
-      <button class="icon ion-plus button button-clear side-icon" ng-click="addCategoryPop()"> </button>
+      <button class="icon ion-plus button button-clear side-icon" ng-click="addCategoryPop()"></button>
     </ion-header-bar>
     <ion-content>
       <ion-list>
+        <ion-item ng-click="clearFilter()">
+          Main
+        </ion-item>
         <ion-item ng-repeat="category in categories" ng-click="filterMain(category)">
           {{category}}
         </ion-item>

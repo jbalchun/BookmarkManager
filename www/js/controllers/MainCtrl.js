@@ -1,5 +1,5 @@
 var app = angular.module('Bookmarks.MainCtrl', []);
-app.controller('MainCtrl',function($scope,BookmarkFactory,DataService,$rootScope,$ionicPlatform){
+app.controller('MainCtrl',function($scope,BookmarkFactory,DataService,$rootScope,$ionicPlatform,$ionicPopup){
   /*Scope vars*/
   $scope.viewBookmark = {url: '',tags:[],category:'',descr:''};
   $scope.searchText = '';
@@ -8,7 +8,27 @@ app.controller('MainCtrl',function($scope,BookmarkFactory,DataService,$rootScope
 
   /*On Controller load*/
   $ionicPlatform.ready(function(){
-    $scope.bookmarks = DataService.getBookmarks($scope.bookmarks);
+    $scope.bookmarks = DataService.getBookmarks();
+    if($rootScope.$storage.username.length === 0){
+      $ionicPopup.alert({
+        title: 'Log in or Register with the top right icon to use pagelocker',
+        buttons: [
+          {
+            text: '<b>Ok</b>',
+            type: 'button-balanced',
+            onTap: function(e) {
+
+            }
+          }
+        ]
+      }).then(function(res) {
+      });
+    }
+    if($rootScope.$storage.username.length > 0){
+      $rootScope.username = $rootScope.$storage.username;
+      DataService.cloudLoad();
+    }
+
   });
 
   /*Scope methods*/
@@ -32,9 +52,7 @@ app.controller('MainCtrl',function($scope,BookmarkFactory,DataService,$rootScope
     //take bookmark id and delete in parse, reload data.
     $scope.bookmarks.splice(index,1);
     DataService.setBookmarks($scope.bookmarks);
-    /*
-     ParseFactory.removeBookmark(id);
-     */
+
   };
 
   $scope.editBookmark = function(index){
@@ -47,11 +65,25 @@ app.controller('MainCtrl',function($scope,BookmarkFactory,DataService,$rootScope
 
   };
 
-  /*Misc.*/
+  /*Event listeners*/
   $scope.$on('cat-filter',function(event,args){
       $scope.searchText = args.text;
   });
+  $scope.$on('cloud-load',function(){
+    $scope.bookmarks = DataService.getBookmarks();
 
+  });
+  $scope.$on('clear-filter',function(){
+    $scope.searchText = '';
+
+  });
+
+  $scope.$on('logged-in',function(){
+    DataService.cloudLoad();
+    $scope.bookmarks = DataService.getBookmarks();
+  });
+
+  /*Misc*/
   var cleanUpForm = function(){
     $scope.viewBookmark = {url: '',descr:'',tags:[],category:''};
   };
@@ -59,4 +91,5 @@ app.controller('MainCtrl',function($scope,BookmarkFactory,DataService,$rootScope
   var saveTags = function(tags){
     DataService.saveTags(tags);
   };
+
 });

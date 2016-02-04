@@ -8,9 +8,6 @@
         <label class="item item-input validated">
           <input name="address" type="text" ng-model="viewBookmark.url" placeholder="Address">
         </label>
-        <label class="item item-input validated">
-          <input name="descr" type="text" ng-model="viewBookmark.descr" placeholder="Description (optional)">
-        </label>
 
         <div>
           <tags-input class="bootstrap full front"
@@ -25,6 +22,9 @@
                            max-results="10"></auto-complete>
           </tags-input>
         </div>
+        <label class="item item-input validated">
+          <input name="descr" type="text" ng-model="viewBookmark.descr" placeholder="Description (optional)">
+        </label>
 
         <div class="border-top">
           <tags-input class="bootstrap full front border-top"
@@ -52,71 +52,72 @@
         <div class="item item-input-inset">
           <label class="item-input-wrapper" id="search-input">
             <i class="icon ion-search placeholder-icon"></i>
-            <input type="text" placeholder="Search" ng-model="searchText" >
+            <input type="text" placeholder="Search" ng-model="searchText">
           </label>
         </div>
       </div>
 
-      <ion-scroll>
-        <!--fix scroll-->
-        <ion-list>
-          <div class="card padding" ng-repeat="bookmark in bookmarks | filter:searchText">
-            <div>
-              <a>{{bookmark.title}}</a>
-              <button class="button button-clear icon ion-trash-b" ng-click="removeBookmark($index)"
-                      style="float:right;"></button>
-              <button class="button button-clear icon ion-edit" ng-click="bookmark.editing = !bookmark.editing"
-                      style="float:right;"></button>
-            </div>
-            <label class="item item-input validated">
-              <span class="input-label">Address</span>
-              <input name="address" type="text" ng-model="bookmark.url" placeholder="Url"
-                     ng-readonly="!bookmark.editing">
-            </label>
-            <label class="item item-input validated">
-              <span class="input-label label-width">Description</span>
-              <input name="title" type="text" ng-model="bookmark.descr" placeholder="Description"
-                     ng-readonly="!bookmark.editing">
-            </label>
 
-            <div>
-              <tags-input class="bootstrap full front"
-                          ng-model="bookmark.tags"
-                          placeholder="Add tags"
-                          replace-spaces-with-dashes="false"
-                          add-from-autocomplete-only="false">
-                <auto-complete source="tags"
-                               min-length="1"
-                               debounce-delay="0"
-                               select-first-match="false"
-                               max-results-to-show="2"
-                               max-results="10"></auto-complete>
-              </tags-input>
-            </div>
+      <ion-list>
+        <div class="card padding" ng-repeat="bookmark in bookmarks | filter:searchText">
+          <div>
+            <a>{{bookmark.title}}</a>
+            <button class="button button-clear icon ion-trash-b" ng-click="removeBookmark($index)"
+                    style="float:right;"></button>
+            <button class="button button-clear icon ion-edit" ng-click="bookmark.editing = !bookmark.editing"
+                    style="float:right;"></button>
+          </div>
+          <label class="item item-input validated">
+            <span class="input-label">Address</span>
+            <input name="address" type="text" ng-model="bookmark.url" placeholder="Url"
+                   ng-readonly="!bookmark.editing">
 
-            <div>
-              <tags-input class="bootstrap full front"
-                          ng-model="bookmark.category"
-                          placeholder="Add Category"
-                          max-tags="1"
-                          replace-spaces-with-dashes="false"
-                          add-from-autocomplete-only="false">
-                <auto-complete source="categories"
-                               min-length="1"
-                               debounce-delay="0"
-                               select-first-match="false"
-                               max-results-to-show="2"
-                               max-results="10"></auto-complete>
-              </tags-input>
-            </div>
-            <button ng-if="bookmark.editing" type="submit" class="button button-block button-balanced"
-                    ng-click="editBookmark($index)">
-              <strong>Save Changes</strong>
-            </button>
+          </label>
+
+          <div>
+            <tags-input class="bootstrap full front"
+                        ng-model="bookmark.tags"
+                        placeholder="Add tags"
+                        replace-spaces-with-dashes="false"
+                        add-from-autocomplete-only="false">
+              <auto-complete source="tags"
+                             min-length="1"
+                             debounce-delay="0"
+                             select-first-match="false"
+                             max-results-to-show="2"
+                             max-results="10"></auto-complete>
+            </tags-input>
           </div>
 
-        </ion-list>
-      </ion-scroll>
+          <label class="item item-input validated">
+            <span class="input-label label-width">Description</span>
+            <input name="title" type="text" ng-model="bookmark.descr" placeholder="Description"
+                   ng-readonly="!bookmark.editing">
+          </label>
+
+
+          <div>
+            <tags-input class="bootstrap full front"
+                        ng-model="bookmark.category"
+                        placeholder="Add Category"
+                        max-tags="1"
+                        replace-spaces-with-dashes="false"
+                        add-from-autocomplete-only="false">
+              <auto-complete source="categories"
+                             min-length="1"
+                             debounce-delay="0"
+                             select-first-match="false"
+                             max-results-to-show="2"
+                             max-results="10"></auto-complete>
+            </tags-input>
+          </div>
+          <button ng-if="bookmark.editing" type="submit" class="button button-block button-balanced"
+                  ng-click="editBookmark($index)">
+            <strong>Save Changes</strong>
+          </button>
+        </div>
+
+      </ion-list>
     </div>
   </ion-content>
 </ion-view>

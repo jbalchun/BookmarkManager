@@ -1,0 +1,1 @@
+var app=angular.module("MyApp.BookmarkFactory",[]);app.factory("BookmarkFactory",function(){function r(r,t,a,o){this.url=r,this.descr=t,this.tags=a,this.category=o}return r.build=function(t){return new r(t.url,t.descr,t.tags,t.category)},r});

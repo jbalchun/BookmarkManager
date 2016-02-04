@@ -1,20 +1,19 @@
 var app = angular.module('MyApp.ParseFactory', []);
 
 app.factory('ParseFactory', function ($rootScope) {
+  /*Interface to our BaaS, Parse*/
   return {
     register:function(userData){
       var factory = this;
+      console.log('registering')
       var user = new Parse.User();
       user.set("username", userData.email);
       user.set("password", userData.password);
       user.set("email", userData.email);
       user.signUp(null, {
         success: function(user) {
-          //alert("success!");
           $rootScope.email = userData.email;
-          alert('Registration successful');
-          //broadcast succesfully registered
-          //factory.deleteThenSave();
+          $rootScope.$storage.username = userData.email;
         },
         error: function(user, error) {
           console.log(error);
@@ -29,6 +28,7 @@ app.factory('ParseFactory', function ($rootScope) {
         }
       });
     },
+
     logIn:function(userData){
       var factory = this;
       $rootScope.username = userData.email;
@@ -36,32 +36,40 @@ app.factory('ParseFactory', function ($rootScope) {
       console.log('logging in');
       Parse.User.logIn(userData.email, userData.password,{
         success: function(user) {
-          factory.loadFrom(userData.email);
+          $rootScope.$broadcast('logged-in');
+          $rootScope.$storage.username = userData.email;
+
         },
         error: function(user, error) {
+          console.log(error);
           alert('Error: No connection or invalid username/password');
+          return false;
         }
       });
     },
-    saveNew:function(){
+
+    saveNew:function(model){
       var factory = this;
-        var stringStorage = JSON.stringify($rootScope.$storage.mainObject);
+        var stringStorage = JSON.stringify(model);
         var Backup = Parse.Object.extend("Backup");
         var backup = new Backup();
 
+        console.log('backing up',$rootScope.username);
         backup.set('username',$rootScope.username);
         backup.set('file',stringStorage);
         backup.save(null, {
           success: function(backup) {
             //alert('saved the file');
+            console.log('save success');
           },
           error: function(backup, error) {
             //alert('Failed save');
+            console.log('save err',error);
           }
         });
     },
 
-    deleteThenSave:function(){//TODO dangerous to delete before save. transaction model or queue up deletes for later
+    deleteThenSave:function(model){//TODO dangerous to delete before save. transaction model or queue up deletes for later
       var factory = this;
       var query = new Parse.Query("Backup");
       console.log('deleting')
@@ -73,26 +81,24 @@ app.factory('ParseFactory', function ($rootScope) {
           for (var i = 0; i < results.length; i++) {
             results[i].destroy({});
           }
-          factory.saveNew();
+          factory.saveNew(model);
         },
         error: function(error) {
+          console.log('delete err',error);
           //alert("Error: " + error.code + " " + error.message);
         }
       });
 
     },
-    loadFrom:function(username){
-      //load row by userId
-      //var stringStorage = JSON.stringify($rootScope.$storage);
+    loadFrom:function(username,DataService){
       var query = new Parse.Query("Backup");
+      console.log('queryname',username)
       query.equalTo("username",username);
       query.find({
         success: function(results) {
           console.log('result',results[0].get('file'));
           console.log('parse',JSON.parse(results[0].get('file')));
-          $rootScope.$storage.mainObject = JSON.parse(results[0].get('file'));
-          $rootScope.$broadcast('cloud-load');
-          $rootScope.justLoaded = true;
+          DataService.setModel(JSON.parse(results[0].get('file')));
         },
         error: function(error) {
           //alert("Error: " + error.code + " " + error.message);

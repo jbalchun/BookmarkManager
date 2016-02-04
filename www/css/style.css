@@ -3,6 +3,7 @@
   margin-left:26%;
 }
 
+
 @media (orientation: landscape){
   .desktop-width{
     -webkit-box-flex: 0;
