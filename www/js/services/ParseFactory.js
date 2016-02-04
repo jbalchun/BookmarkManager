@@ -5,7 +5,7 @@ app.factory('ParseFactory', function ($rootScope) {
   return {
     register:function(userData){
       var factory = this;
-      console.log('registering')
+      console.log('registering',userData)
       var user = new Parse.User();
       user.set("username", userData.email);
       user.set("password", userData.password);
@@ -15,6 +15,7 @@ app.factory('ParseFactory', function ($rootScope) {
           $rootScope.$broadcast('logged-in');
           $rootScope.email = userData.email;
           $rootScope.$storage.username = userData.email;
+          $rootScope.username = userData.email;
         },
         error: function(user, error) {
           console.log(error);
@@ -58,16 +59,18 @@ app.factory('ParseFactory', function ($rootScope) {
         console.log('backing up',$rootScope.username);
         backup.set('username',$rootScope.username);
         backup.set('file',stringStorage);
-        backup.save(null, {
-          success: function(backup) {
-            //alert('saved the file');
-            console.log('save success');
-          },
-          error: function(backup, error) {
-            //alert('Failed save');
-            console.log('save err',error);
-          }
-        });
+        if($rootScope.username.length >0) {
+          backup.save(null, {
+            success: function (backup) {
+              //alert('saved the file');
+              console.log('save success');
+            },
+            error: function (backup, error) {
+              //alert('Failed save');
+              console.log('save err', error);
+            }
+          });
+        }
     },
 
     deleteThenSave:function(model){//TODO dangerous to delete before save. transaction model or queue up deletes for later
